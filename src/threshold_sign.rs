@@ -122,6 +122,8 @@ impl<N: NodeIdT> ConsensusProtocol for ThresholdSign<N> {
     fn our_id(&self) -> &Self::NodeId {
         self.netinfo.our_id()
     }
+
+
 }
 
 impl<N: NodeIdT> ThresholdSign<N> {

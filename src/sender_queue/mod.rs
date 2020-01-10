@@ -184,6 +184,8 @@ where
         self.apply(|algo| algo.handle_input(input, rng))
     }
 
+
+
     /// Handles a message received from `sender_id`.
     ///
     /// This must be called with every message we receive from another node.

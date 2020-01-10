@@ -66,6 +66,9 @@ where
     fn our_id(&self) -> &N {
         self.netinfo.our_id()
     }
+
+
+
 }
 
 impl<C, N> HoneyBadger<C, N>

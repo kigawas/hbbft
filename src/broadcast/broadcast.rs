@@ -85,6 +85,8 @@ impl<N: NodeIdT> ConsensusProtocol for Broadcast<N> {
     fn our_id(&self) -> &N {
         &self.our_id
     }
+
+
 }
 
 impl<N: NodeIdT> Broadcast<N> {

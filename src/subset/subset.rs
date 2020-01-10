@@ -1,3 +1,4 @@
+#![allow(unused_parens)]
 use std::collections::BTreeMap;
 use std::sync::Arc;
 use std::{fmt, result};

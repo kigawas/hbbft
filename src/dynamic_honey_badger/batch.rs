@@ -1,7 +1,7 @@
 use std::collections::BTreeMap;
 use std::sync::Arc;
 
-use super::{ChangeState, JoinPlan, Params};
+use super::{ChangeState, JoinPlan, Params,KeyGenMessage};
 use crate::{NetworkInfo, NodeIdT, PubKeyMap};
 
 /// A batch of transactions the algorithm has output.
@@ -22,7 +22,10 @@ pub struct Batch<C, N: Ord> {
     pub(super) netinfo: Arc<NetworkInfo<N>>,
     /// Parameters controlling Honey Badger's behavior and performance.
     pub(super) params: Params,
+
+    pub(super) keygen_collected: Vec<(u64,N,KeyGenMessage)>,
 }
+
 
 impl<C, N: NodeIdT> Batch<C, N> {
     /// Returns the linear epoch of this `DynamicHoneyBadger` batch.
@@ -55,6 +58,14 @@ impl<C, N: NodeIdT> Batch<C, N> {
     /// Returns the contributions and their proposers.
     pub fn contributions(&self) -> impl Iterator<Item = (&N, &C)> {
         self.contributions.iter()
+    }
+
+    /// Returns an iterator over references to all transactions included in the batch.
+    pub fn keygen_messages<'a>(&'a self) -> impl Iterator<Item = &(u64,N,KeyGenMessage)>
+    where
+        &'a C: IntoIterator,
+    {
+        self.keygen_collected.iter()
     }
 
     /// Returns an iterator over references to all transactions included in the batch.

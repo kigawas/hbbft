@@ -201,6 +201,7 @@ impl<N: NodeIdT, S: SessionIdT> ConsensusProtocol for BinaryAgreement<N, S> {
     fn our_id(&self) -> &Self::NodeId {
         self.netinfo.our_id()
     }
+
 }
 
 impl<N: NodeIdT, S: SessionIdT> BinaryAgreement<N, S> {

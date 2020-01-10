@@ -302,6 +302,11 @@ where
         self.dyn_hb.netinfo()
     }
 
+    /// Returns the information about our batch size
+    pub fn batch_size(&self) -> usize {
+            self.batch_size
+    }
+
     /// Returns the current queue of the `QueueingHoneyBadger`.
     pub fn queue(&self) -> &Q {
         &self.queue

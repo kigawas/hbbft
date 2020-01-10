@@ -79,6 +79,10 @@ where
     fn our_id(&self) -> &N {
         self.netinfo().our_id()
     }
+
+
+
+
 }
 
 impl<C, N> DynamicHoneyBadger<C, N>
@@ -367,7 +371,7 @@ where
             let batch_era = self.era;
             let batch_epoch = hb_batch.epoch + batch_era;
             let mut batch_contributions = BTreeMap::new();
-
+            let mut keygen_coll=Vec::new();
             // Add the user transactions to `batch` and handle votes and DKG messages.
             for (id, int_contrib) in hb_batch.contributions {
                 let InternalContrib {
@@ -375,6 +379,8 @@ where
                     key_gen_messages,
                     contrib,
                 } = int_contrib;
+                let mut drn:Vec<_>=key_gen_messages.iter().map(|k| (k.0.clone(),k.1.clone(),k.2.clone())).collect();
+                keygen_coll.append(&mut drn);
                 step.fault_log
                     .extend(self.vote_counter.add_committed_votes(&id, votes)?);
                 batch_contributions.insert(id.clone(), contrib);
@@ -431,6 +437,7 @@ where
                 netinfo: self.netinfo().clone(),
                 contributions: batch_contributions,
                 params: self.honey_badger.params().clone(),
+                keygen_collected:keygen_coll,
             });
         }
         Ok(step)
@@ -451,7 +458,7 @@ where
         pub_keys: PubKeyMap<N>,
         rng: &mut R,
     ) -> Result<Step<C, N>> {
-        if self.key_gen_state.as_ref().map(KeyGenState::public_keys) == Some(&pub_keys) {
+        if self.key_gen_state.as_ref().map(KeyGenState::public_keys) == Some(&pub_keys) { //maybe adjust
             return Ok(Step::default()); // The change is the same as before. Continue DKG as is.
         }
         debug!("{}: Restarting DKG for {:?}.", self, pub_keys);

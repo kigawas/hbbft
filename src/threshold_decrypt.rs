@@ -110,6 +110,8 @@ impl<N: NodeIdT> ConsensusProtocol for ThresholdDecrypt<N> {
     fn our_id(&self) -> &N {
         self.netinfo.our_id()
     }
+
+
 }
 
 impl<N: NodeIdT> ThresholdDecrypt<N> {

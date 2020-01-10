@@ -313,6 +313,8 @@ pub trait ConsensusProtocol: Send + Sync {
     where
         Self: Sized;
 
+
+
     /// Handles a message received from node `sender_id`.
     fn handle_message<R: Rng>(
         &mut self,
